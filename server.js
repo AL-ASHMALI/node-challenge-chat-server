@@ -18,7 +18,7 @@ const welcomeMessage = {
 //Note: messages will be lost when Glitch restarts our server.
 let messages = [welcomeMessage];
 
-// creating a message with simple validation and adding the time the message was created/sent
+// creating a message with simple validation and timestamp
 app.post("/messages", (req, res) => {
   const { from, text } = req.body; // getting the data from both the name and message fields by targetting the name attribute of both
   const messageObj = {
@@ -33,6 +33,28 @@ app.post("/messages", (req, res) => {
   messages.push(messageObj);
   }
 });
+
+//Read all messages
+app.get("/messages", (req, res) => {
+  res.json(messages);
+});
+
+// getting the message based on an ID
+app.get("/messages/:id", (req, res) => {
+  const id = req.params.id; 
+  console.log(id);
+  filteredMessages = messages.filter((message) => {
+    message.id === Number(id)
+  }); 
+  res.send(filteredMessages);
+})
+
+// Deleting a message by ID 
+app.delete("/messages/:id", (req, res) => {
+  const id = req.params.id;
+    deletedMessages = messages.filter((message) => message.id !== Number(id));
+    res.json(deletedMessages)
+})
 
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/index.html");
