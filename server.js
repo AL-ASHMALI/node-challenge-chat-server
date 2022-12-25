@@ -21,6 +21,7 @@ let messages = [welcomeMessage];
 // creating a message with simple validation and timestamp
 app.post("/messages", (req, res) => {
   const { from, text } = req.body; // getting the data from both the name and message fields by targetting the name attribute of both
+  console.log(from, text);
   const messageObj = {
     id: messages.length, 
     from, 
@@ -51,7 +52,8 @@ app.get("/messages/:id", (req, res) => {
 
 // Deleting a message by ID 
 app.delete("/messages/:id", (req, res) => {
-  const id = req.params.id;
+ const id = req.params.id;
+ console.log(id);
     deletedMessages = messages.filter((message) => message.id !== Number(id));
     res.json(deletedMessages)
 })
